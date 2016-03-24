@@ -78,6 +78,7 @@ public class QuickSort {
                 //System.out.println(line);
                 lineNum++;
             }
+            br.close();
             //System.out.println("Load file, begin: " + begin + ", length: " + length + ", lineNum: " + lineNum);
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,6 +121,16 @@ public class QuickSort {
 
     protected int CompareLines(String line1, String line2){
         int keyNum = 10;
+        /*
+        if (line1.length()<98) {
+            System.out.println("Q:length: " + line1.length() + '\t' + line1);
+            return -1;
+        }
+        if (line2.length()<98) {
+            System.out.println("Q:length: " + line2.length() + '\t' + line2);
+            return 1;
+        }
+        */
         String key1 = line1.substring(0, keyNum);
         String key2 = line2.substring(0, keyNum);
         // Return: a negative integer, zero, or a positive integer
@@ -130,12 +141,19 @@ public class QuickSort {
     protected void Write(String out){
         try {
             FileWriter _writer = new FileWriter(out, false);
+            BufferedWriter bw = new BufferedWriter(_writer);
             for (String line : _lines){
                 //_writer.write(Integer.toString((int) line.charAt(0) ) );
-                _writer.write(line);
-                _writer.write("\r\n");
+                /*
+                if (line.length()<98) {
+                    System.out.println("Q:Write:Length: "+ line.length() + '\t' + line);
+                }
+                */
+                bw.write(line);
+                bw.write("\r\n");
             }
-            _writer.close();
+            bw.flush();
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

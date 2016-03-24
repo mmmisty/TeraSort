@@ -1,8 +1,6 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -24,20 +22,24 @@ public class MergeTwoFiles {
     }
 
     public void Run() {
-        FileInputStream stream1 = null;
-        FileInputStream stream2 = null;
-        Scanner scanner1 = null;
-        Scanner scanner2 = null;
+        FileReader stream1 = null;
+        FileReader stream2 = null;
+        //Scanner scanner1 = null;
+        //Scanner scanner2 = null;
         FileWriter writer = null;
 
         try {
-            stream1 = new FileInputStream(_firstFile);
-            scanner1 = new Scanner(stream1);
+            stream1 = new FileReader(_firstFile);
+            BufferedReader bs1 = new BufferedReader(stream1);
+            //scanner1 = new Scanner(stream1);
 
-            stream2 = new FileInputStream(_secondFile);
-            scanner2 = new Scanner(stream2);
+            stream2 = new FileReader(_secondFile);
+            BufferedReader bs2 = new BufferedReader(stream2);
+
+            //scanner2 = new Scanner(stream2);
 
             writer = new FileWriter(_outputFile, false);
+            BufferedWriter bw = new BufferedWriter(writer);
 
             /*
             for (;scanner1.hasNextLine() && scanner2.hasNextLine();){
@@ -48,9 +50,54 @@ public class MergeTwoFiles {
             String line1 = "";
             String line2 = "";
 
-            while (scanner1.hasNextLine()){
+            while (true) {
+                if (line1.isEmpty()){
+                    line1 = bs1.readLine();
+                    if (line1 == null) {
+                        break;
+                    }
+                }
+                if (line2.isEmpty()){
+                    line2 = bs2.readLine();
+                    if (line2 == null) {
+                        break;
+                    }
+                }
+
+                if (CompareLines(line1, line2) <= 0) {
+                    bw.write(line1 + "\r\n");
+                    line1 = "";
+                } else {
+                    bw.write(line2 + "\r\n");
+                    line2 = "";
+                }
+            }
+
+            if (line1 != null && !line1.isEmpty()) {
+                bw.write(line1 + "\r\n");
+            }
+
+            if (line2 != null && !line2.isEmpty()) {
+                bw.write(line2 + "\r\n");
+            }
+
+            while ((line1 = bs1.readLine()) != null) {
+                bw.write(line1 + "\r\n");
+            }
+
+            while ((line2 = bs2.readLine()) != null) {
+                bw.write(line2 + "\r\n");
+            }
+
+            bs1.close();
+            bs2.close();
+            bw.flush();
+            bw.close();
+
+            /*
+            while (bs1.hasNextLine()){
                 if (line1.isEmpty()) {
-                    line1 = scanner1.nextLine();
+                    line1 = bs1.nextLine();
                 }
                 if (!scanner2.hasNextLine()) {
                     writer.write(line1 + "\r\n");
@@ -87,6 +134,7 @@ public class MergeTwoFiles {
             stream2.close();
             scanner1.close();
             scanner2.close();
+            */
 
             DeleteFile(_firstFile);
             DeleteFile(_secondFile);
@@ -98,6 +146,16 @@ public class MergeTwoFiles {
 
     protected int CompareLines(String line1, String line2){
         int keyNum = 10;
+        /*
+        if (line1.length()<98) {
+            System.out.println("M:length: " + line1.length() + '\t' + line1);
+            return -1;
+        }
+        if (line2.length()<98) {
+            System.out.println("M:length: " + line2.length() + '\t' + line2);
+            return 1;
+        }
+        */
         String key1 = line1.substring(0, keyNum);
         String key2 = line2.substring(0, keyNum);
         // Return: a negative integer, zero, or a positive integer
