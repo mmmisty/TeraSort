@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TeraSort:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TeraSort_jar</output-path>
+    <root id="archive" name="TeraSort.jar">
+      <element id="module-output" name="TeraSort" />
+    </root>
+  </artifact>
+</component>
