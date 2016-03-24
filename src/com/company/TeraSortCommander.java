@@ -59,7 +59,7 @@ public class TeraSortCommander {
         while(true) {
             String file1 = _fileQueue.Get();
 
-            System.out.print("In commander, get " + file1 + ". ");
+            System.out.println("In commander, get " + file1 + ". Remaining " + _fileQueue._list.size() + " tasks.");
             Date end = new Date();
             System.out.println((end.getTime() - start.getTime()) + " ms.");
             /*for(String name : _fileQueue._list) {
@@ -77,7 +77,7 @@ public class TeraSortCommander {
 
                 _taskQueue.Put(jobTwo);
 
-                //System.out.println("In commander, put one job with " + file1 + " and " + file2);
+                System.out.println("In commander, put one job with " + file1 + " and " + file2);
 
                 file2 = "";
             }

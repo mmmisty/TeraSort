@@ -22,6 +22,7 @@ public class MergeTwoFiles {
     }
 
     public void Run() {
+        System.out.println("M:start to merge " + _firstFile + " and " + _secondFile);
         FileReader stream1 = null;
         FileReader stream2 = null;
         //Scanner scanner1 = null;
