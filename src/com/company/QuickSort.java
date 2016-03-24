@@ -64,24 +64,25 @@ public class QuickSort {
         _lines = new ArrayList<>();
         try {
             RandomAccessFile raf = new RandomAccessFile(_file, "r");
+
             raf.seek(begin * 100);
+
+            FileReader fr = new FileReader(raf.getFD());
+            BufferedReader br = new BufferedReader(fr);
 
             String line = null;
 
-            while ((line = raf.readLine()) != null && lineNum <= length){
+            while ((line = br.readLine()) != null && lineNum <= length){
                 //String line = _scanner.nextLine();
                 _lines.add(line);
                 //System.out.println(line);
                 lineNum++;
             }
+            //System.out.println("Load file, begin: " + begin + ", length: " + length + ", lineNum: " + lineNum);
         } catch (Exception e) {
             e.printStackTrace();
         }
         //System.out.println(lineNum);
-    }
-
-    protected void Sort() {
-
     }
 
     protected void RandomizedQuickSort(List<String> A, int p, int r) {
@@ -146,15 +147,20 @@ public class QuickSort {
             return;
         }
 
-        for (int i = 0; i < Math.ceil((double)length / _maxLength); i++) {
-            LoadFile(begin + i * _maxLength, length < _maxLength ? length : _maxLength);
+        double loop = Math.ceil((double)length / _maxLength);
+        for (int i = 0; i < loop; i++) {
+            long acLenghth = length < _maxLength ? length : _maxLength;
+            LoadFile(begin + i * _maxLength, acLenghth);
             RandomizedQuickSort(_lines, 0, _lines.size() - 1);
             String out = _fileName + '.' + Integer.toString(tmpFileIndex) + '.' + Integer.toString(i);
             _tmpFile.add(out);
             Write(out);
             Close();
 
-            System.out.println("In quick sort, " + out + " has been created.");
+            length -= acLenghth;
+
+            System.out.println("In quick sort, " + out + " has been created. begin: "
+                    + (begin + i * _maxLength) + " length: " + (length < _maxLength ? length : _maxLength));
         }
     }
 

@@ -59,7 +59,7 @@ public class TeraSortCommander {
         while(true) {
             String file1 = _fileQueue.Get();
 
-            System.out.print("In commander, get " + file1 + ". The remaining files are ");
+            System.out.print("In commander, get " + file1 + ". ");
             Date end = new Date();
             System.out.println((end.getTime() - start.getTime()) + " ms.");
             /*for(String name : _fileQueue._list) {
